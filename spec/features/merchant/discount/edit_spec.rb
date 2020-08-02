@@ -24,7 +24,23 @@ RSpec.describe 'As a merchant employee' do
     end
 
     it "clicking on the link takes me to a form, where I can edit the name, item quantity, and discount percentage. Upon form submission, I an taken back to the index page, and the updated discount is shown" do
+      name = "Fall Price Fall"
+      item_quantity = 100
+      discount_percentage = 60
+      visit "/merchant/discounts/#{@discount1.id}/edit"
+      fill_in 'Name', with: name
+      fill_in 'item_quantity', with: item_quantity
+      fill_in 'discount_percentage', with: discount_percentage
+      click_on "Update Discount"
+      new_discount = Discount.last
 
+      within("#discount-#{new_discount.id}") do
+        expect(page).to have_content(new_discount.name)
+        expect(page).to have_content(new_discount.item_quantity)
+        expect(page).to have_content(new_discount.discount_percentage)
+      end
     end
+
+    
   end
 end

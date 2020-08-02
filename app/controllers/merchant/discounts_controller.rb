@@ -7,6 +7,20 @@ class Merchant::DiscountsController < Merchant::BaseController
     @merchant_employee = User.find(current_user.id)
   end
 
+  def edit
+    @discount = Discount.find(params[:id])
+  end
+
+  def update
+    @discount = Discount.find(params[:id])
+    @discount.update(discount_params)
+    if @discount.save
+      redirect_to "/merchant/discounts"
+    else
+      render :edit
+    end
+  end
+
   def create
     merchant = Merchant.find(current_user.merchant.id)
     @discount = merchant.discounts.create(discount_params)
