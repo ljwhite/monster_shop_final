@@ -23,7 +23,7 @@ RSpec.describe 'As a merchant employee' do
       end
     end
 
-    it "clicking on the link takes me to a form, where I can edit the name, item quantity, and discount percentage. Upon form submission, I an taken back to the index page, and the updated discount is shown" do
+    it "clicking on the link takes me to a form, where I can edit the name, item quantity, and discount percentage. Upon form submission, I am taken back to the index page, and the updated discount is shown, along with a flash message indicating the update was successful" do
       name = "Fall Price Fall"
       item_quantity = 100
       discount_percentage = 60
@@ -33,7 +33,7 @@ RSpec.describe 'As a merchant employee' do
       fill_in 'discount_percentage', with: discount_percentage
       click_on "Update Discount"
       new_discount = Discount.last
-
+      expect(page).to have_content("Discount has been updated")
       within("#discount-#{new_discount.id}") do
         expect(page).to have_content(new_discount.name)
         expect(page).to have_content(new_discount.item_quantity)
@@ -41,6 +41,18 @@ RSpec.describe 'As a merchant employee' do
       end
     end
 
-    
+    it "if I do not correctly fill out the form, I am taken back to the edit form to try again" do
+      name = "Fall Price Fail"
+      item_quantity = 100
+      discount_percentage = 60
+      visit "/merchant/discounts/#{@discount1.id}/edit"
+      fill_in 'Name', with: name
+      fill_in 'item_quantity', with: ""
+      fill_in 'discount_percentage', with: discount_percentage
+      click_on "Update Discount"
+      
+      expect(page).to have_content("Item quantity can't be blank")
+    end
+
   end
 end
