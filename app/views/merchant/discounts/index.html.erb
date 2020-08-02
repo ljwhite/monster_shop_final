@@ -1,0 +1,12 @@
+<h1>All Discounts</h1>
+
+
+<% @merchant_employee.merchant.discounts.each do |discount| %>
+  <section id='discount-<%= discount.id %>'>
+    <h3><%= discount.name %></h3>
+    Required Item Quantity: <%= discount.item_quantity %><br>
+    Discount Percentage: <%= discount.discount_percentage %>%<br>
+    <%= link_to "Delete","/merchant/discounts/#{discount.id}", method: :delete %>
+    <%= link_to "Edit", "/merchant/discounts/#{discount.id}/edit" %><br>
+  </section>
+<% end %>
