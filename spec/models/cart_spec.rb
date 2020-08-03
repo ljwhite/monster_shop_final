@@ -12,6 +12,8 @@ RSpec.describe Cart do
         @ogre.id.to_s => 1,
         @giant.id.to_s => 2
         })
+      @discount1 = Discount.create!(name: "Winter Sale", item_quantity: 1, discount_percentage: 5, merchant: @megan)
+      @discount2 = Discount.create!(name: "Spring Sale", item_quantity: 2, discount_percentage: 10, merchant: @megan)
     end
 
     it '.contents' do
@@ -40,7 +42,9 @@ RSpec.describe Cart do
     end
 
     it '.grand_total' do
-      expect(@cart.grand_total).to eq(120)
+      expect(@cart.subtotal_of(@ogre.id)).to eq(19)
+    #  expect(@cart.grand_total).to eq(120)
+      expect(@cart.grand_total).to eq(109.0)
     end
 
     it '.count_of()' do
@@ -49,8 +53,10 @@ RSpec.describe Cart do
     end
 
     it '.subtotal_of()' do
-      expect(@cart.subtotal_of(@ogre.id)).to eq(20)
-      expect(@cart.subtotal_of(@giant.id)).to eq(100)
+      # expect(@cart.subtotal_of(@ogre.id)).to eq(20)
+      # expect(@cart.subtotal_of(@giant.id)).to eq(100)
+      expect(@cart.subtotal_of(@ogre.id)).to eq(19)
+      expect(@cart.subtotal_of(@giant.id)).to eq(90)
     end
 
     it '.limit_reached?()' do
@@ -60,8 +66,24 @@ RSpec.describe Cart do
 
     it '.less_item()' do
       @cart.less_item(@giant.id.to_s)
-
       expect(@cart.count_of(@giant.id)).to eq(1)
     end
+
+    it '.find_best_discount' do
+      @cart.add_item(@hippo.id.to_s)
+      @cart.add_item(@hippo.id.to_s)
+
+      expect(@cart.find_best_discount).to eq({@ogre.id => @discount1,
+                                              @giant.id => @discount2,
+                                              @hippo.id => nil})
+    end
+
+    it ".item_price_including_discount" do
+      @cart.add_item(@hippo.id.to_s)
+      expect(@cart.item_price_including_discount(@ogre.id)).to eq(19)
+      expect(@cart.item_price_including_discount(@giant.id)).to eq(45)
+      expect(@cart.item_price_including_discount(@hippo.id)).to eq(50)
+    end
+
   end
 end
