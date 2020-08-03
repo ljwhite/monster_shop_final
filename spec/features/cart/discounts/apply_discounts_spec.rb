@@ -22,8 +22,33 @@ RSpec.describe 'Cart Discount ' do
       click_button 'Add to Cart'
       visit item_path(@hippo)
       click_button 'Add to Cart'
+      visit item_path(@hippo)
+      click_button 'Add to Cart'
+      visit item_path(@hippo)
+      click_button 'Add to Cart'
+      visit item_path(@giant)
+      click_button 'Add to Cart'
 
       visit '/cart'
+
+      within("#item-#{@ogre.id}") do
+        expect(page).to have_content("Price: $#{@ogre.price}")
+        expect(page).to have_content("Discount Applied: #{@discount1.name}")
+        expect(page).to have_content("Discounted Price: $19")
+      end
+
+      within("#item-#{@hippo.id}") do
+        expect(page).to have_content("Price: $#{@hippo.price}")
+        expect(page).to_not have_content("Discount Applied:")
+        expect(page).to_not have_content("Discounted Price:")
+      end
+
+      within("#item-#{@giant.id}") do
+        expect(page).to have_content("Price: $#{@giant.price}")
+        expect(page).to_not have_content("Discount Applied:")
+        expect(page).to_not have_content("Discounted Price:")
+      end
+
 
     end
   end

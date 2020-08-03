@@ -76,6 +76,8 @@ RSpec.describe Cart do
       expect(@cart.find_best_discount).to eq({@ogre.id => @discount1,
                                               @giant.id => @discount2,
                                               @hippo.id => nil})
+      expect(@cart.find_best_discount[@ogre.id]).to eq(@discount1)
+      expect(@cart.find_best_discount[@hippo.id]).to eq(nil)
     end
 
     it ".item_price_including_discount" do

@@ -4,6 +4,7 @@ RSpec.describe Discount, type: :model do
   describe 'validations' do
     it {should validate_presence_of :item_quantity}
     it {should validate_presence_of :discount_percentage}
+    it {should validate_presence_of :name}
   end
 
   describe 'relationships' do
