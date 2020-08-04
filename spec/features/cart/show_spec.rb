@@ -42,7 +42,6 @@ RSpec.describe 'Cart Show Page' do
           expect(page).to have_content("Sold by: #{@brian.name}")
           expect(page).to have_css("img[src*='#{@hippo.image}']")
           expect(page).to have_link(@brian.name)
-          save_and_open_page
         end
       end
 

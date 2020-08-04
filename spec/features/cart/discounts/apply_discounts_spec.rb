@@ -48,8 +48,6 @@ RSpec.describe 'Cart Discount ' do
         expect(page).to_not have_content("Discount Applied:")
         expect(page).to_not have_content("Discounted Price:")
       end
-save_and_open_page
-
     end
   end
 end
