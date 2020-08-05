@@ -53,8 +53,6 @@ RSpec.describe Cart do
     end
 
     it '.subtotal_of()' do
-      # expect(@cart.subtotal_of(@ogre.id)).to eq(20)
-      # expect(@cart.subtotal_of(@giant.id)).to eq(100)
       expect(@cart.subtotal_of(@ogre.id)).to eq(19)
       expect(@cart.subtotal_of(@giant.id)).to eq(90)
     end

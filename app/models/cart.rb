@@ -25,14 +25,11 @@ class Cart
   end
 
   def grand_total
-    gt = 0.0
+    grand_total = 0.0
     @contents.each do |item_id, quantity|
-    #  binding.pry
-  #    grand_total += Item.find(item_id).price * quantity
-  #    grand_total += item_price_including_discount(item_id) * quantity
-      gt += self.subtotal_of(item_id.to_i)
+      grand_total += self.subtotal_of(item_id.to_i)
     end
-    gt
+    grand_total
   end
 
   def count_of(item_id)
@@ -40,7 +37,6 @@ class Cart
   end
 
   def subtotal_of(item_id)
-  #  @contents[item_id.to_s] * Item.find(item_id).price
   @contents[item_id.to_s] * item_price_including_discount(item_id)
   end
 

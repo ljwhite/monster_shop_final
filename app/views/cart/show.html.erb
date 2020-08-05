@@ -11,11 +11,12 @@
       <% if cart.find_best_discount[item.id].nil? %>
         <p>Price: <%= number_to_currency(item.price) %></p>
       <% else %>
-        <p>Price: <%= number_to_currency(item.price) %></p>
-        <p>Discount Applied: <%= cart.find_best_discount[item.id].name %></p>
+        <h3>Discount Applied: <%= cart.find_best_discount[item.id].name %></h3>
+        <p>Original Price: <%= number_to_currency(item.price) %></p>
         <p>Discounted Price: <%= number_to_currency(cart.item_price_including_discount(item.id)) %>
+        <p>You save <%= number_to_currency(item.price - cart.item_price_including_discount(item.id)) %> per item!</p>
       <% end %>
-      
+
       <p>Quantity: <%= cart.count_of(item.id) %></p>
       <p>Subtotal: <%= number_to_currency(cart.subtotal_of(item.id)) %></p>
       <p>Sold by: <%= link_to item.merchant.name, "/merchants/#{item.merchant_id}" %>, Inventory: <%= item.inventory %></p>
